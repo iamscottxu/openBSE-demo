@@ -1,4 +1,5 @@
 window.onload = function () {
+    window.renderMode = "canvas";
     window.fpsStats = new stats("FPS", 55, 65, "#75F8FB", document.getElementById('fps'));
     window.delayStats = new stats("Delay", 0, 10, "#7DEE3A", document.getElementById('delay'));
     window.realTimeBulletScreenCountStats = new stats("Real Time Bullet-Screen Count", 0, 10, "#EA5798", document.getElementById('realTimeBulletScreenCount'));
@@ -17,7 +18,9 @@ window.onload = function () {
             shadowBlur: 4
         },
         clock: () => videoElement.currentTime * 1000
-    }, 'canvas');
+    }, getRenderMode());
+
+    setRenderModeRadioDefault();
 
     var bulletScreenContextmenu = new openBSE.Contextmenu(generalEngine, document.getElementById('bullet_screen_contextmenu'));
     var stageContextmenu = new contextmenu(document.getElementById('stage'), document.getElementById('stage_contextmenu'));
@@ -142,6 +145,35 @@ function sethiddenTypes() {
     generalEngine.options = {
         hiddenTypes: hiddenTypes
     };
+}
+
+function getRenderMode() {
+    switch (location.hash) {
+        case "#css3":
+            return "css3";
+        case "#webgl":
+            return "webgl";
+        case "#svg":
+            return "svg";
+        default:
+            return "canvas";
+    }
+}
+
+function setRenderModeRadioDefault() {
+    var renderMode = getRenderMode();
+    var radios = document.getElementById("renderModes");
+    for (var index = 0;index < radios.length; index++)
+    {
+        if(radios[index].value == renderMode)
+            radios[index].checked = "checked";
+    }    
+}
+
+function setRenderModes() {
+    var formData = new FormData(document.getElementById("renderModes"));
+    location.replace("#" + formData.get('renderModes'));
+    location.reload();
 }
 
 function set(key, value) {

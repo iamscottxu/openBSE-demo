@@ -5,9 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>openBSE Demo</title>
     <link href="style.css" rel="stylesheet" type="text/css">
-    <script src="//openbse.netlify.app/openbse.all.min.js"></script>
+    <script src="https://openbse.netlify.app/openbse.all.min.js"></script>
     <script src="stats.js"></script>
-    <script src="//hls-js.netlify.com/dist/hls.min.js"></script>
+    <script src="https://hls-js.netlify.com/dist/hls.min.js"></script>
     <script src="contextmenu.js"></script>
     <script src="openBSEDemo.js"></script>
 </head>
@@ -29,6 +29,15 @@
     </div>
     <p><input type="text" style="width:500px;" id="BulletScreenText">&nbsp;<a href="#"
             onclick="sendBulletScreen();">发送</a></p>
+    <p>
+        渲染模式：
+        <form id="renderModes" onclick="setRenderModes();">
+            <input type="radio" value="canvas" name="renderModes">Canvas&nbsp;
+            <input type="radio" value="css3" name="renderModes">CSS3&nbsp;
+            <input type="radio" value="webgl" name="renderModes">WebGL&nbsp;
+            <input type="radio" value="svg" name="renderModes">SVG&nbsp;
+        </form>
+    </p>
     <p>
         隐藏弹幕：
         <form id="hiddenTypes" onclick="sethiddenTypes();">
