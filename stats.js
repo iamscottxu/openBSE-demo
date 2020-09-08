@@ -50,7 +50,7 @@ window.stats = function (statsTitle, min, max, color, container) {
                 var value = values[i - _length];
                 percent = 1 - (value - _min) / (_max - _min);
             }
-            c.style.transform = "scale3d(1," + percent + ",1)translate3d(0," + (- percent * GRAPH_HEIGHT / 2) + "px,0)";
+            c.style.transform = "scale3d(1," + percent + ",1)translate3d(0," + (percent - 1) * GRAPH_HEIGHT / 2 + "px,0)";
         });
     };
 
