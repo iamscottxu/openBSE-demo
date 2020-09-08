@@ -45,12 +45,12 @@ window.stats = function (statsTitle, min, max, color, container) {
     var redrawGraph = function (dom) {
         var _length = GRAPH_WIDTH - values.length;
         [].forEach.call(dom.children, function (c, i) {
-            var percent = 100;
+            var percent = 1;
             if (i >= _length) {
                 var value = values[i - _length];
-                percent = 100 * (1 - (value - _min) / (_max - _min));
+                percent = 1 - (value - _min) / (_max - _min);
             }
-            c.style.height = percent + '%';
+            c.style.transform = "scale3d(1," + percent + ',1)';
         });
     };
 
