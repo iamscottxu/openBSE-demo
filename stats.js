@@ -35,7 +35,7 @@ window.stats = function (statsTitle, min, max, color, container) {
         while (statsGraph.children.length < GRAPH_WIDTH) {
 
             var bar = document.createElement('span');
-            bar.style.cssText = 'top:0;left:' + statsGraph.children.length + 'px;position:absolute;width:1px;height:100%;background-color:rgba(0, 0, 0, 0.7)';
+            bar.style.cssText = 'top:0;left:' + statsGraph.children.length + 'px;position:absolute;width:1px;height:' + GRAPH_HEIGHT + 'px;background-color:rgba(0, 0, 0, 0.7)';
             statsGraph.appendChild(bar);
 
         }
@@ -50,7 +50,7 @@ window.stats = function (statsTitle, min, max, color, container) {
                 var value = values[i - _length];
                 percent = 1 - (value - _min) / (_max - _min);
             }
-            c.style.transform = "scale3d(1," + percent + ",1)translate3d(0," + (_min - value) / 2 + "px,0)";
+            c.style.transform = "scale3d(1," + percent + ",1)translate3d(0," + (- percent * GRAPH_HEIGHT / 2) + "px,0)";
         });
     };
 
