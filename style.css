@@ -1,3 +1,32 @@
+body {
+    margin: 0;
+}
+
+header {
+    background-color: #eee;
+    text-align: center;
+    padding: 1rem 0;
+}
+.header-title {
+    font-size: 3rem;
+    font-weight: normal;
+    line-height: 1.5;
+    margin: 0;
+}
+.header-subtitle {
+    font-size: 1.25rem;
+    font-weight: normal;
+    line-height: 1.6;
+    margin: 0;
+    padding-bottom: 1rem;
+}
+.header-badge {
+    display: inline-flex;
+}
+
+main {
+    margin: 8px;
+}
 .stage {
     width:936px;
     height:526.5px;
