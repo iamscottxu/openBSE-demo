@@ -9,8 +9,9 @@ window.onload = function () {
     document.getElementById("version").innerText = document.getElementById("contextmenu_item_version").innerText = versionInfo.version;
     document.getElementById("buildDate").innerText = versionInfo.buildDate;
 
-    var videoElement = window.videoElement = document.createElement('video');
-    videoElement.playsinline = videoElement.webkitPlaysinline = true;
+    window.videoElement = document.createElement('video');
+    if (videoElement.playsInline === false) videoElement.playsInline = true;
+    else if (videoElement.webkitPlaysInline === false) videoElement.webkitPlaysInline = true;
     window.videoCanvasElement = document.getElementById('videoCanvas');
     var ctx = videoCanvasElement.getContext('2d');
     var copyFrameDate = function() {
