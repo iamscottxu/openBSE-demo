@@ -17,7 +17,7 @@ window.onload = function () {
             fontWeight: 'normal',
             shadowBlur: 4
         },
-        clock: () => videoElement.currentTime * 1000
+        clock: function() { return videoElement.currentTime * 1000; }
     }, getRenderMode());
 
     setRenderModeRadioDefault();
@@ -76,11 +76,12 @@ window.onload = function () {
         document.getElementById('debug_info').style.display = 'none';
     }
 
+    var m3u8address = 'https://scott-xu.gitee.io/streams/x36xhzz/x36xhzz.m3u8';
     if (Hls.isSupported()) {
         var hls = new Hls();
-        hls.loadSource('https://scott-xu.gitee.io/streams/x36xhzz/x36xhzz.m3u8');
+        hls.loadSource(m3u8address);
         hls.attachMedia(videoElement);
-    }
+    } else videoElement.src = m3u8address;
     
     loadData();
 }
