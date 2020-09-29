@@ -11,10 +11,20 @@ window.onload = function () {
 
     window.videoElement = document.getElementById('video');
     window.videoCanvasElement = document.getElementById('videoCanvas');
-    var ctx  = videoCanvasElement.getContext('2d');
+    var ctx = videoCanvasElement.getContext('2d');
     var copyFrameDate = function() {
-        ctx.clearRect(0, 0, videoCanvasElement.width, videoCanvasElement.height);
-        ctx.drawImage(videoElement, 0, 0, videoCanvasElement.width, videoCanvasElement.height);
+        var devicePixelRatio = window.devicePixelRatio || 1;
+        var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                                ctx.mozBackingStorePixelRatio ||
+                                ctx.msBackingStorePixelRatio ||
+                                ctx.oBackingStorePixelRatio ||
+                                ctx.backingStorePixelRatio || 1;
+        var ratio = devicePixelRatio / backingStoreRatio;
+        var width = videoCanvasElement.clientWidth * ratio;
+        var height = videoCanvasElement.clientHeight * ratio;
+        videoCanvasElement.width = width;
+        videoCanvasElement.height = height;
+        ctx.drawImage(videoElement, 0, 0, width, height);
         requestAnimationFrame(copyFrameDate);
     }
     requestAnimationFrame(copyFrameDate);
