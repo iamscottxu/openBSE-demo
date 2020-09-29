@@ -1,4 +1,5 @@
 window.onload = function () {
+    loadRequestAnimationFrame();
     window.renderMode = "canvas";
     window.fpsStats = new stats("FPS", 55, 65, "#75F8FB", document.getElementById('fps'));
     window.delayStats = new stats("Delay", 0, 10, "#7DEE3A", document.getElementById('delay'));
@@ -9,6 +10,14 @@ window.onload = function () {
     document.getElementById("buildDate").innerText = versionInfo.buildDate;
 
     window.videoElement = document.getElementById('video');
+    window.videoCanvasElement = document.getElementById('videoCanvas');
+    var ctx  = videoCanvasElement.getContext('2d');
+    var copyFrameDate = function() {
+        ctx.clearRect(0, 0, videoCanvasElement.width, videoCanvasElement.height);
+        ctx.drawImage(videoElement, 0, 0, videoCanvasElement.width, videoCanvasElement.height);
+        requestAnimationFrame(copyFrameDate);
+    }
+    requestAnimationFrame(copyFrameDate);
 
     window.generalEngine = new openBSE.GeneralEngine(document.getElementById('BulletScreensDiv'), {
         defaultStyle: {
@@ -17,7 +26,7 @@ window.onload = function () {
             fontWeight: 'normal',
             shadowBlur: 4
         },
-        clock: function() { return videoElement.currentTime * 1000; }
+        clock: function () { return videoElement.currentTime * 1000; }
     }, getRenderMode());
 
     setRenderModeRadioDefault();
@@ -60,19 +69,19 @@ window.onload = function () {
         }, true);
     });
 
-    
 
-    document.getElementById('contextmenu_item_debug_info').onclick = function(e) {
+
+    document.getElementById('contextmenu_item_debug_info').onclick = function (e) {
         stageContextmenu.closeContextmenu();
         var debugInfo = document.getElementById('debug_info');
         if (debugInfo.style.display != 'none') return;
         debugInfo.style.display = '';
-        fpsStats.reSize();fpsStats.clean();
-        delayStats.reSize();delayStats.clean();
-        realTimeBulletScreenCountStats.reSize();realTimeBulletScreenCountStats.clean();
+        fpsStats.reSize(); fpsStats.clean();
+        delayStats.reSize(); delayStats.clean();
+        realTimeBulletScreenCountStats.reSize(); realTimeBulletScreenCountStats.clean();
         setTimeout(showDebugInfo, 0);
     }
-    document.getElementById('debug_info_close').onclick = function(e) {
+    document.getElementById('debug_info_close').onclick = function (e) {
         document.getElementById('debug_info').style.display = 'none';
     }
 
@@ -82,7 +91,7 @@ window.onload = function () {
         hls.loadSource(m3u8address);
         hls.attachMedia(videoElement);
     } else videoElement.src = m3u8address;
-    
+
     loadData();
 }
 
@@ -164,11 +173,10 @@ function getRenderMode() {
 function setRenderModeRadioDefault() {
     var renderMode = getRenderMode();
     var radios = document.getElementById("renderModes");
-    for (var index = 0;index < radios.length; index++)
-    {
-        if(radios[index].value == renderMode)
+    for (var index = 0; index < radios.length; index++) {
+        if (radios[index].value == renderMode)
             radios[index].checked = "checked";
-    }    
+    }
 }
 
 function setRenderModes() {
@@ -181,4 +189,26 @@ function set(key, value) {
     var object = {};
     object[key] = value;
     generalEngine.options = object;
+}
+
+function loadRequestAnimationFrame() {
+    if (typeof window.performance === 'object' &&
+        typeof window.performance.now === 'function') {
+        window.performance_now = function () {
+            return window.performance.now();
+        }
+    } else window.performance_now = function () {
+        return new window.Date().getTime();
+    }
+    if (typeof window.requestAnimationFrame !== 'function' ||
+        typeof window.cancelAnimationFrame !== 'function') {
+        window.requestAnimationFrame = function (callback) {
+            window.setTimeout(function () {
+                callback(window.performance_now());
+            }, 17); //60fps
+        }
+        window.cancelAnimationFrame = function (handle) {
+            window.clearTimeout(handle);
+        }
+    }
 }
